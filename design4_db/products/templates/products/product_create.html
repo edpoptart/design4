@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h2>Hi {{ request.user|title }}, what are we selling now? </h2>
+<h2>Hi {{ request.user|title }}, what are we adding? </h2>
 <form method="POST"> {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit" />
