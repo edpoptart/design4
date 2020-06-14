@@ -1,0 +1,15 @@
+<ul class="sidebar-nav">
+
+{% if user.is_authenticated %}
+<li>User: {{ user.get_username|title }}</li>
+<li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>   
+{% else %}
+<li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>   
+{% endif %} 
+
+
+<li><a href="{% url 'index'%}" >Home</a> </li>
+<li><a href="{% url 'contact'%}" >Contact</a> </li>
+<li><a href="{% url 'product-create'%}" >Create Product</a> </li>
+<li><a href="{% url 'product-list-public'%}" >Products List</a> </li>
+</ul>

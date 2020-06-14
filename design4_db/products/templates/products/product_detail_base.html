@@ -1,0 +1,45 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+
+{% block additionnal_top %}
+
+{% endblock additionnal_top %}
+
+<h2>{{ product_object.name|title }}</h2>
+<h3>By: {{ product_object.brand_name|title }}</h3>
+
+<h4>Product related stuff:</h4>
+<p>Total Weight: {{ product_object.total_weight}}</p>
+<p>Serving Size: {{ product_object.serving_size}}</p>
+<p>Calories per serving: {{ product_object.calories}}</p>
+
+<h4>Macros per serving:</h4>
+<p>Fat: {{ product_object.fat}}</p>
+<ul>
+    <li>Saturated Fat: {{ product_object.saturated_fat}}</li>
+    <li>Trans Fat: {{ product_object.trans_fat}}</li>
+</ul>
+<p>Cholesterol: {{ product_object.cholesterol}}</p>
+<p>Sodium: {{ product_object.sodium}}</p>
+<p>Carbohydrate: {{ product_object.carbohydrate}}</p>
+<ul>
+    <li>Fibre: {{ product_object.fibre}}</li>
+    <li>Sugars: {{ product_object.sugars}}</li>
+</ul>
+<p>Protein: {{ product_object.protein}}</p>
+
+<h4>Micros per serving:</h4>
+<p>Vitamin A: {{ product_object.vitamin_a}}</p>
+<p>Vitamin C: {{ product_object.vitamin_c}}</p>
+<p>Calcium: {{ product_object.calcium}}</p>
+<p>Iron: {{ product_object.iron}}</p>
+
+<h4>Ingredients:</h4>
+<p>{{ product_object.ingredients}}</p>
+
+{% block additionnal_bot %}
+
+{% endblock additionnal_bot %}
+
+{% endblock content %}

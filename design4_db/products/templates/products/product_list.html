@@ -1,0 +1,17 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<h2>Listing {{ product_list.count }} product(s)</h2>
+<h2>==============================</h2>
+{% for product in product_list %}
+
+<p>
+    {{ product.name }} | {{ product.brand_name }} | Barcode: {{ product.barcode }} | Created by: {{ product.creator|title }}
+    <a href="{% url 'product-detail' id=product.id %}">
+     UUID: {{ product.id }}
+
+</a></p>
+
+{% endfor %}
+
+{% endblock content %}
