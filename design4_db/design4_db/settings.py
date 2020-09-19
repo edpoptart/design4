@@ -40,8 +40,12 @@ INSTALLED_APPS = [
 
     'django.contrib.humanize',
 
+    'rest_framework',
+
     'products',
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

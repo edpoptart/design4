@@ -6,7 +6,7 @@
 {% for product in product_list %}
 
 <p>
-    {{ product.name }} | {{ product.brand_name }} | Barcode: {{ product.barcode }} | Created by: {{ product.creator|title }}
+    {{ product.name }} | {{ product.brand_name }} | Barcode: {{ product.id }} | Created by: {{ product.creator|title }}
     <a href="{% url 'product-detail' id=product.id %}">
      UUID: {{ product.id }}
 

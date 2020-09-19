@@ -15,23 +15,27 @@ Including another URLconf
 """
 from django.contrib import admin, auth
 from django.urls import path, include
+from django.conf.urls import url
 
-import pages.views as pv
-import products.views as av
+import pages.views
+import products.views
 
 urlpatterns = [
     # Default
-    path('', pv.index_view, name='index'),
-    path('contact/', pv.contact_view, name='contact'),
+    path('', pages.views.index_view, name='index'),
+    path('contact/', pages.views.contact_view, name='contact'),
 
-    # product
-    path('products/create/', av.product_create_view, name='product-create'),
-    path('products/public/list/', av.product_list_public_view, name='product-list-public'),
-    path('products/<id>/detail/', av.product_detail_view, name='product-detail'),
+    # Product
+    path('products/create/', products.views.product_create_view, name='product-create'),
+    path('products/public/list/', products.views.product_list_public_view, name='product-list-public'),
+    path('products/<id>/detail/', products.views.product_detail_view, name='product-detail'),
 
     # Accounts
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/signup/', pv.signup, name='signup'),
-    path('activate/<uidb64>/<token>/', pv.activate, name='activate'),
+    path('accounts/signup/', pages.views.signup, name='signup'),
+    path('activate/<uidb64>/<token>/', pages.views.activate, name='activate'),
+
+    # API
+    path('API/fetchProductDataByBarcode/<barcode>/', products.views.product_detail),
 ]

@@ -7,12 +7,8 @@ import uuid
 # Create your models here.
 class Product(models.Model):
 
-    # Just in case barcodes are identical
-    id                      = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    creator                 = models.ForeignKey(User, on_delete=models.CASCADE)
-    
     # Product related stuff.
-    barcode                 = models.CharField(max_length=100)
+    id                      = models.CharField(max_length=100, primary_key=True)
     name                    = models.CharField(max_length=30)
     brand_name              = models.CharField(max_length=30)
     total_weight            = models.CharField(max_length=30)
@@ -41,4 +37,4 @@ class Product(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return str(self.barcode)
+        return '#{} - {} by {}'.format(self.id, self.name, self.brand_name)

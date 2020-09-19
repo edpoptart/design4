@@ -1,18 +1,51 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-from .forms import ProductForm
-from .models import Product
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
+from products.forms import ProductForm
+from products.models import Product
+from products.serializers import ProductSerializer
 
 # Create your views here.
 
+# API Related
+@csrf_exempt
+def product_detail(request, barcode):
+    """
+    Retrieve, update or delete a code product.
+    """
+    try:
+        product = Product.objects.get(id=barcode)
+    except Product.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = ProductSerializer(product)
+        return JsonResponse(serializer.data)
+
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = ProductSerializer(product, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
+
+    elif request.method == 'DELETE':
+        product.delete()
+        return HttpResponse(status=204)
+
+
+# Web
 
 @login_required
 def product_create_view(request):
     # TODO Remove initial values
     # TODO Change template to accomodate Product_item
     initial_value = {
-        'barcode':'1234206956',
+        'id':'1234206956',
         'name':'Gold Standard Whey',
         'brand_name':'Omny Nutrition',
         'total_weight':'2270g',
