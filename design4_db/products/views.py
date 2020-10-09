@@ -12,9 +12,9 @@ from products.serializers import ProductSerializer
 
 # API Related
 @csrf_exempt
-def product_detail(request, barcode):
+def product_fetch(request, barcode):
     """
-    Retrieve, update or delete a code product.
+    Retrieve, update or delete a product by barcode.
     """
     try:
         product = Product.objects.get(id=barcode)
@@ -37,6 +37,20 @@ def product_detail(request, barcode):
         product.delete()
         return HttpResponse(status=204)
 
+
+@csrf_exempt
+def product_insert(request):
+    """
+    Insert a product.
+    """
+    if request.method == 'PUT':
+        product = Product()
+        data = JSONParser().parse(request)
+        serializer = ProductSerializer(product, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
 
 # Web
 

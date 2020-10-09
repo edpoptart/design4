@@ -37,5 +37,6 @@ urlpatterns = [
     path('activate/<uidb64>/<token>/', pages.views.activate, name='activate'),
 
     # API
-    path('API/fetchProductDataByBarcode/<barcode>/', products.views.product_detail),
+    path('API/fetchProductDataByBarcode/<barcode>/', products.views.product_fetch),
+    path('API/insertProductData/', products.views.product_insert),
 ]
