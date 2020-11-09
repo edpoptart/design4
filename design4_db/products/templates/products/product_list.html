@@ -7,7 +7,7 @@
 
 <p>
     
-    {{ product.name }} | {{ product.brand_name }} | <a href="{% url 'product-detail' id=product.id %}"> Barcode: {{ product.id }} </a>
+    {{ product.name }} | {{ product.brand_name }} | <a href="{% url 'product-detail' id=product.id %}"> Barcode: {{ product.id }} </a>  <img src="{{product.image_front_url}}" width="50" height="50"> 
 
 </p>
 

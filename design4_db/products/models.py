@@ -33,6 +33,12 @@ class Product(models.Model):
     iron                    = models.CharField(max_length=30)
 
     ingredients             = models.TextField(blank=True)
+    allergens               = models.TextField(blank=True)
+
+    logos                   = models.CharField(max_length=60)
+    ocr_text                = models.TextField(blank=True)
+    image_front_url         = models.TextField(blank=True)
+
 
 
     def __str__(self):
