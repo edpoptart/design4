@@ -26,5 +26,9 @@ class ProductForm(forms.ModelForm):
             'vitamin_c',
             'calcium',
             'iron',
-            'ingredients'
+            'ingredients',
+            'allergens',
+            'logos',
+            'ocr_text',
+            'image_front_url'
         ]

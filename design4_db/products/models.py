@@ -9,10 +9,10 @@ class Product(models.Model):
 
     # Product related stuff.
     id                      = models.CharField(max_length=100, primary_key=True)
-    name                    = models.CharField(max_length=30)
-    brand_name              = models.CharField(max_length=30)
+    name                    = models.CharField(max_length=60)
+    brand_name              = models.CharField(max_length=50)
     total_weight            = models.CharField(max_length=30)
-    serving_size            = models.CharField(max_length=30)
+    serving_size            = models.CharField(max_length=50)
     calories                = models.CharField(max_length=30)
 
     #Macros per serving
@@ -40,6 +40,9 @@ class Product(models.Model):
     image_front_url         = models.TextField(blank=True)
 
 
+    logos                   = models.CharField(max_length=60)
+    ocr_text                = models.TextField(blank=True)
+    image_front_url         = models.TextField(blank=True)
 
     def __str__(self):
         """String for representing the Model object."""

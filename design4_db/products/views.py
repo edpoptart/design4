@@ -78,7 +78,8 @@ def product_create_view(request):
         'vitamin_c':'0%',
         'calcium':'8%',
         'iron':'0%',
-        'ingredients':'Whey Protein Concentrates, Whey Protein Peptides, Natural and Artificial flavours, Lecithin'
+        'ingredients':'Whey Protein Concentrates, Whey Protein Peptides, Natural and Artificial flavours, Lecithin',
+        'allergens':'milk'
     }
     form_product = ProductForm(request.POST or None, initial=initial_value)
     if form_product.is_valid():
