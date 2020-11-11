@@ -47,6 +47,8 @@ def product_atributes_fetch(request):
         data = JSONParser().parse(request)
         serializer = ProductSerializer(product, data=data)
         
+        print(serializer.data)
+        print(product.logos)
         products = []
         try:
             products.extend(Product.objects.get(logos=product.logos))
