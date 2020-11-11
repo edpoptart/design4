@@ -49,7 +49,8 @@ def product_atributes_fetch(request):
         
         products = []
         products.extend(Product.objects.get(logos=product.logos))
-        products.extend(Product.objects.get(brand_name=product.logos.split("L")[0]))
+        for entry in product.logos.split("L")[0].split(","):
+            products.extend(Product.objects.get(brand_name=entry))
         for entry in product.logos.split("L")[1].split(","):
             products.extend(Product.objects.get(brand_name=entry))
         print(len(products))
