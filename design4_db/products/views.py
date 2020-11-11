@@ -48,8 +48,10 @@ def product_atributes_fetch(request):
         serializer = ProductSerializer(product, data=data)
         
         products = []
-        products.extend(Product.objects.get(brand_name=[product.logos]))
-        products.extend(Product.objects.get(brand_name=[product.logos.split("L")[0]]))
+        products.extend(Product.objects.get(logos=product.logos))
+        products.extend(Product.objects.get(brand_name=product.logos.split("L")[0]))
+        for entry in product.logos.split("L")[1].split(","):
+            products.extend(Product.objects.get(brand_name=entry))
         print(len(products))
 
         #if serializer.is_valid():
