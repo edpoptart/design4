@@ -51,7 +51,7 @@ def product_atributes_fetch(request):
             print(serializer.data)
         print(product.logos)
         print(data)
-        print(len(product.objects.filter(brand_name="Lay's"))
+        print(len(product.objects.filter(brand_name="Lay's")))
 
         products = []
         try:
