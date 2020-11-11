@@ -56,19 +56,24 @@ def product_atributes_fetch(request):
             products.extend(Product.objects.get(logos=product.logos))
         except:
             pass
-        for entry in product.logos.split(",L,")[0].split(","):
-            if entry != '':
-                try:
-                    products.extend(Product.objects.get(brand_name=entry))
-                except:
-                    pass
         try:
-        for entry in product.logos.split(",L,")[1].split(","):
-            if entry != '':
-                try:
-                    products.extend(Product.objects.get(brand_name=entry))
-                except:
-                    pass
+            for entry in product.logos.split(",L,")[0].split(","):
+                if entry != '':
+                    try:
+                        products.extend(Product.objects.get(brand_name=entry))
+                    except:
+                        pass
+        except:
+            pass
+        try:
+            for entry in product.logos.split(",L,")[1].split(","):
+                if entry != '':
+                    try:
+                        products.extend(Product.objects.get(brand_name=entry))
+                    except:
+                        pass
+        except:
+            pass
         print(len(products))
 
         #if serializer.is_valid():
