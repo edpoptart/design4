@@ -50,6 +50,7 @@ def product_atributes_fetch(request):
         if serializer.is_valid():
             print(serializer.data)
         print(product.logos)
+        print(data)
         products = []
         try:
             products.extend(Product.objects.get(logos=product.logos))
