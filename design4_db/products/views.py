@@ -86,7 +86,10 @@ def product_insert(request):
         data = JSONParser().parse(request)
         serializer = ProductSerializer(product, data=data)
         if serializer.is_valid():
-            serializer.save()
+            try:
+                serializer.save()
+            except:
+                serializer.update()
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
 
