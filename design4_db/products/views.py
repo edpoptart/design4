@@ -37,6 +37,26 @@ def product_fetch(request, barcode):
         product.delete()
         return HttpResponse(status=204)
 
+@csrf_exempt
+def product_atributes_fetch(request):
+    """
+    Retrieve, update or delete a product by its attributes.
+    """
+    if request.method == 'POST':
+        product = Product()
+        data = JSONParser().parse(request)
+        serializer = ProductSerializer(product, data=data)
+        
+        products = []
+        products.extend(Product.objects.get(brand_name=[product.logos]))
+        products.extend(Product.objects.get(brand_name=[product.logos.split("L")[0]]))
+        print(len(products))
+
+        #if serializer.is_valid():
+        #    serializer.save()
+        #    return JsonResponse(serializer.data)
+        #return JsonResponse(serializer.errors, status=400)
+
 
 @csrf_exempt
 def product_insert(request):

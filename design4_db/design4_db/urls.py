@@ -38,5 +38,6 @@ urlpatterns = [
 
     # API
     path('API/fetchProductDataByBarcode/<barcode>/', products.views.product_fetch),
+    path('API/fetchProductDataByAttributes/', products.views.product_atributes_fetch),
     path('API/insertProductData/', products.views.product_insert),
 ]
