@@ -89,15 +89,21 @@ def product_insert(request):
     """
     Insert a product.
     """
-    if request.method == 'PUT':
-        product = Product()
-        data = JSONParser().parse(request)
+    product = Product()
+    data = JSONParser().parse(request)
+    serializer = ProductSerializer(product, data=data)
+    try:
+        #Try to fetch product if it exists and update the serializer if so
+        product = Product.objects.get(id=serializer.initial_data.get("id"))
         serializer = ProductSerializer(product, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            serializer.update()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+    except:
+        pass
+    
+    #Validate incoming data
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse(serializer.data)
+    return JsonResponse(serializer.errors, status=400)
 
 # Web
 
