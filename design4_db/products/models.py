@@ -35,12 +35,8 @@ class Product(models.Model):
     ingredients             = models.TextField(blank=True)
     allergens               = models.TextField(blank=True)
 
-    logos                   = models.CharField(max_length=60)
-    ocr_text                = models.TextField(blank=True)
-    image_front_url         = models.TextField(blank=True)
-
-
-    logos                   = models.CharField(max_length=60)
+    logos                   = models.TextField(blank=True)
+    labels                  = models.TextField(blank=True)
     ocr_text                = models.TextField(blank=True)
     image_front_url         = models.TextField(blank=True)
 

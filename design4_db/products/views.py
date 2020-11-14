@@ -37,6 +37,7 @@ def product_fetch(request, barcode):
         product.delete()
         return HttpResponse(status=204)
 
+# On veut pas créer l'objet, on veut juste trouver celui qui ressemble le plus à celui reçu
 @csrf_exempt
 def product_atributes_fetch(request):
     """
@@ -49,17 +50,20 @@ def product_atributes_fetch(request):
         
         if serializer.is_valid():
             print(serializer.data)
+
         print(product.logos)
-        print(data)
+        print(product.labels)
+
         print(len(product.objects.filter(brand_name="Lay's")))
 
         products = []
+        
         try:
             products.extend(Product.objects.get(logos=product.logos))
         except:
             pass
         try:
-            for entry in product.logos.split(",L,")[0].split(","):
+            for entry in product.logos:
                 if entry != '':
                     try:
                         products.extend(Product.objects.get(brand_name=entry))
@@ -67,17 +71,39 @@ def product_atributes_fetch(request):
                         pass
         except:
             pass
+
+        """products_labels = []
         try:
-            for entry in product.logos.split(",L,")[1].split(","):
+            for entry in product.labels:
                 if entry != '':
                     try:
                         products.extend(Product.objects.get(brand_name=entry))
                     except:
                         pass
         except:
-            pass
+            pass"""
         print(len(products))
 
+        #for product in product
+
+        # received product.logos = "Lay's,Frito-Lay"
+        # SELECT * from products WHERE logos IS "Lay's,Frito-Lay"
+        #                              labels IS product.labels
+        #                              
+        # Query the db for all entries where brand_name in product.logos.split(",")
+        # produits X,Y,Z que brand_name = "Lay's"
+        
+        # correlation_scores = [] # (produit, score)
+
+        # for product_wtv in productsXYZ:
+        #    correlation_scores.append((product_wtv, correlation(product.ocr_text, product_wtv.ocr_text))) 
+        
+        #product_to_return = max(correlation_scores)[0]
+        # def correlation(string1, string2):
+        #    string.to_byte_value_or_int_idc_or_to_hex
+        #    correler la suite de hex values des strings ensemble
+
+        # return product_to_return
         #if serializer.is_valid():
         #    serializer.save()
         #    return JsonResponse(serializer.data)
