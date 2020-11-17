@@ -36,7 +36,6 @@ class Product(models.Model):
     allergens               = models.TextField(blank=True)
 
     logos                   = models.TextField(blank=True)
-    labels                  = models.TextField(blank=True)
     ocr_text                = models.TextField(blank=True)
     image_front_url         = models.TextField(blank=True)
 

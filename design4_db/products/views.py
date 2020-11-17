@@ -8,6 +8,9 @@ from products.forms import ProductForm
 from products.models import Product
 from products.serializers import ProductSerializer
 
+#String correlation
+from difflib import SequenceMatcher
+
 # Create your views here.
 
 # API Related
@@ -25,89 +28,36 @@ def product_fetch(request, barcode):
         serializer = ProductSerializer(product)
         return JsonResponse(serializer.data)
 
-    elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = ProductSerializer(product, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
-
-    elif request.method == 'DELETE':
-        product.delete()
+    else:
         return HttpResponse(status=204)
 
 # On veut pas créer l'objet, on veut juste trouver celui qui ressemble le plus à celui reçu
 @csrf_exempt
 def product_atributes_fetch(request):
-    """
-    Retrieve, update or delete a product by its attributes.
-    """
-    if request.method == 'POST':
-        product = Product()
-        data = JSONParser().parse(request)
-        serializer = ProductSerializer(product, data=data)
-        
-        if serializer.is_valid():
-            print(serializer.data)
 
-        print(product.logos)
-        print(product.labels)
+    product = Product()
+    data = JSONParser().parse(request)
+    serializer = ProductSerializer(product, data=data)
+    logos = serializer.initial_data.get("logos").replace(' ', '').split(",")
+    ocr_text = serializer.initial_data.get("ocr_text").replace(' ', '').replace('\n', ' ')
 
-        print(len(product.objects.filter(brand_name="Lay's")))
+    best_correlation = 0
 
-        products = []
-        
-        try:
-            products.extend(Product.objects.get(logos=product.logos))
-        except:
-            pass
-        try:
-            for entry in product.logos:
-                if entry != '':
-                    try:
-                        products.extend(Product.objects.get(brand_name=entry))
-                    except:
-                        pass
-        except:
-            pass
+    for logo in logos:
+        matching_products = Product.objects.filter(brand_name__icontains=logo)
+        matches_info = []
 
-        """products_labels = []
-        try:
-            for entry in product.labels:
-                if entry != '':
-                    try:
-                        products.extend(Product.objects.get(brand_name=entry))
-                    except:
-                        pass
-        except:
-            pass"""
-        print(len(products))
+        #On peut changer ce qui est retourné, pour l'instant seulement un tuple du ID(barcode) et brand_name qui match au logo.
+        for product in matching_products:
+            product_ocr_text = product.ocr_text.replace(' ', '').replace('\n', ' ')
+            correlation = SequenceMatcher(None, ocr_text, product_ocr_text).ratio()
+            print(correlation)
+            if correlation > best_correlation:
+                best_product = product
+                best_correlation = correlation
+    print(best_product)
 
-        #for product in product
-
-        # received product.logos = "Lay's,Frito-Lay"
-        # SELECT * from products WHERE logos IS "Lay's,Frito-Lay"
-        #                              labels IS product.labels
-        #                              
-        # Query the db for all entries where brand_name in product.logos.split(",")
-        # produits X,Y,Z que brand_name = "Lay's"
-        
-        # correlation_scores = [] # (produit, score)
-
-        # for product_wtv in productsXYZ:
-        #    correlation_scores.append((product_wtv, correlation(product.ocr_text, product_wtv.ocr_text))) 
-        
-        #product_to_return = max(correlation_scores)[0]
-        # def correlation(string1, string2):
-        #    string.to_byte_value_or_int_idc_or_to_hex
-        #    correler la suite de hex values des strings ensemble
-
-        # return product_to_return
-        #if serializer.is_valid():
-        #    serializer.save()
-        #    return JsonResponse(serializer.data)
-        #return JsonResponse(serializer.errors, status=400)
+    return JsonResponse(data=ProductSerializer(best_product).data)
 
 
 @csrf_exempt
@@ -126,7 +76,7 @@ def product_insert(request):
         pass
     
     #Validate incoming data
-    if serializer.is_valid():
+    if serializer.is_valid() and request.method == 'PUT':
         serializer.save()
         return JsonResponse(serializer.data)
     return JsonResponse(serializer.errors, status=400)
