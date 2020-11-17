@@ -44,18 +44,15 @@ def product_atributes_fetch(request):
     best_correlation = 0
 
     for logo in logos:
-        matching_products = Product.objects.filter(brand_name__icontains=logo)
-        matches_info = []
+        matching_products = Product.objects.filter(brand_name__icontains=logo) | Product.objects.filter(logos__icontains=logo)
 
-        #On peut changer ce qui est retourné, pour l'instant seulement un tuple du ID(barcode) et brand_name qui match au logo.
         for product in matching_products:
             product_ocr_text = product.ocr_text.replace(' ', '').replace('\n', ' ')
             correlation = SequenceMatcher(None, ocr_text, product_ocr_text).ratio()
-            print(correlation)
+
             if correlation > best_correlation:
                 best_product = product
                 best_correlation = correlation
-    print(best_product)
 
     return JsonResponse(data=ProductSerializer(best_product).data)
 
